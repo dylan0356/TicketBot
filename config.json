@@ -1,0 +1,9 @@
+{
+    "clientId": "1121612434881384650",
+	"guildId": "1122611789989941369",
+    "applicationTicketCategory": "1122611868847050832",
+    "supportTicketCategory": "1122611889168453702",
+    "ticketLogChannel": "1122612030470365314",
+    "ticketTranscriptChannel": "1122612046136102932",
+    "access_to_ticket" : ["1122612184925610085", "1122612147457892443"]
+}
