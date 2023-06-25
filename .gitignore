@@ -1,5 +1,3 @@
-#add ignore for token.env
 .env
-
-#node_modules
 node_modules
+token.env
