@@ -1,0 +1,33 @@
+{
+  "name": "discord.js",
+  "version": "1.0.0",
+  "description": "A discord bot built for a technical interview",
+  "main": "bot.js",
+  "scripts": {
+    "test": "/status"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylan0356/TicketBot.git"
+  },
+  "keywords": [
+    "JS",
+    "Discord",
+    "Javascript",
+    "Discord.js",
+    "Ticket"
+  ],
+  "author": "Dylancanada",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dylan0356/TicketBot/issues"
+  },
+  "homepage": "https://github.com/dylan0356/TicketBot#readme",
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.43.0"
+  }
+}
