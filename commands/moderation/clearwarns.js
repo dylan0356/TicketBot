@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const Sequelize = require('sequelize');
 
 const Warns = require('../../models/warns');
+const { PermissionFlagsBits } = require('discord.js');
 
 
 const sequelize = new Sequelize({
@@ -19,7 +20,8 @@ module.exports = {
     .addMentionableOption(option =>
         option.setName('user')
             .setDescription('The user to warn')
-            .setRequired(true)),
+            .setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
 	async execute(interaction) {
     const user = interaction.options.getMentionable('user');
     const member = interaction.guild.members.cache.get(user.id);
