@@ -1,6 +1,16 @@
 # TicketBot
 
 ## Installation
+
+Clone the repository to your local computer
+> git clone https://github.com/dylan0356/TicketBot/
+
+Edit .env and add your discord bot token
+> TOKEN=YOUR_TOKEN_HERE
+
+Configure the config to change values related to your server
+> config.json
+
 ```
 npm i
 
