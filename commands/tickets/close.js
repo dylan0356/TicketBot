@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
-const { ticketLogChannel } = require('../../config.json');
+const { ticketLogChannel, ticketTranscriptChannel } = require('../../config.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -46,6 +46,27 @@ module.exports = {
 
                 collector.on('end', async collected => {
                     if (collected.size === 0) {
+                        const transcriptChannel = interaction.guild.channels.cache.get(ticketTranscriptChannel);
+                        const reversedMessages = await interaction.channel.messages.fetch({ limit: 100 });
+
+                        const messages = Array.from(reversedMessages.values()).reverse();
+
+                        let transcript = '';
+                        messages.forEach(message => {
+                            transcript += `${message.author.username}: ${message.content}\n`;
+                        });
+
+                        transcriptChannel.send({ content: `Transcript for ${interaction.channel.name}`, files: [{ attachment: Buffer.from(transcript), name: `${interaction.channel.name}.txt` }] });
+
+                        try {
+                            await interaction.user.send({ content: `Here is the transcript for your ticket: ${interaction.channel.name}`, files: [{ attachment: Buffer.from(transcript), name: `${interaction.channel.name}.txt` }] });
+                        }
+                        catch (error) {
+                            console.error(error);
+                            await interaction.reply('An error occurred while trying to send the transcript to the user.');
+                        }
+
+
                         await interaction.channel.delete();
                     }
                 });

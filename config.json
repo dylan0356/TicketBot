@@ -5,5 +5,7 @@
     "supportTicketCategory": "1122611889168453702",
     "ticketLogChannel": "1122612030470365314",
     "ticketTranscriptChannel": "1122612046136102932",
-    "access_to_ticket" : ["1122612184925610085", "1122612147457892443"]
+    "access_to_ticket" : ["1122612184925610085", "1122612147457892443"],
+    "openApplicationsChannel" : "1122764335698169966",
+    "openSupportChannel" : "1122764360880762950"
 }
