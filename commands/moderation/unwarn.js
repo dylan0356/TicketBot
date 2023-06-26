@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const Sequelize = require('sequelize');
 
 const Warns = require('../../models/warns');
@@ -23,7 +23,8 @@ module.exports = {
     .addStringOption(option =>
         option.setName('warnid')
             .setDescription('The warn ID to remove')
-            .setRequired(true)),
+            .setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
 	async execute(interaction) {
 
     const user = interaction.options.getMentionable('user');

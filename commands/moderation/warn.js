@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const Sequelize = require('sequelize');
 
 const Warns = require('../../models/warns');
@@ -22,7 +22,8 @@ module.exports = {
             .setRequired(true))
     .addStringOption(option =>
         option.setName('reason')
-            .setDescription('The reason for warning the user')),
+            .setDescription('The reason for warning the user'))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
 	async execute(interaction) {
 
     const user = interaction.options.getMentionable('user');

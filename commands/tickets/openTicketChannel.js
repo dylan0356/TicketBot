@@ -1,9 +1,10 @@
-const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('openticketchannel')
-		.setDescription('Creates an embed with buttons to open a ticket'),
+		.setDescription('Creates an embed with buttons to open a ticket')
+		.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 	async execute(interaction) {
 		// create embed for ticket
 		const embed = new EmbedBuilder()
