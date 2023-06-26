@@ -23,7 +23,7 @@ module.exports = {
 		else if (interaction.isButton()) {
 			// handle openTicketChannel button interactions here
 
-			// application button
+			// application button ----------------------------------------------------------------------------------------
 			const button = interaction.component;
 			if (button.customId === 'application') {
 				// create ticket channel in application category
@@ -59,7 +59,7 @@ module.exports = {
 
 
 			}
-			// support button
+			// support button ----------------------------------------------------------------------------------------
 			if (button.customId === 'support') {
 				// create ticket channel in support category
 				const channel = await interaction.guild.channels.create({
@@ -80,7 +80,13 @@ module.exports = {
 
 				// send message to ticket log channel
 				const logChannel = interaction.guild.channels.cache.get(ticketLogChannel);
-				await logChannel.send(`Ticket created by ${interaction.user} in ${channel}`);
+				const logEmbed = new EmbedBuilder()
+					.setTitle('Ticket Created')
+					.setDescription(`Ticket created by ${interaction.user} in ${channel}`)
+					.setTimestamp()
+					.setFooter({ text: 'Bot created by dylancanada' });
+
+				await logChannel.send({ embeds: [logEmbed] });
 
 				// send message to button clicker
 				await interaction.reply({ content: `Ticket created at ${channel}`, ephemeral: true });
@@ -119,29 +125,43 @@ module.exports = {
 				// TODO
 
 
-				// send message to ticket log channel
-				const logChannel = interaction.guild.channels.cache.get(ticketLogChannel);
-				await logChannel.send(`Ticket closed by ${interaction.user} in ${interaction.channel}`);
+				const closeEmbed = new EmbedBuilder()
+                    .setTitle('Closing Ticket')
+                    .setDescription('This ticket will be closed in 5 seconds.')
+                    .addFields(
+                        { name: 'Ticket', value: interaction.channel.name },
+                        { name: 'Closed By', value: interaction.user.username },
+                    )
+                    .setColor('#ff0000');
 
-				// say closing ticket in 3 seconds type cancel to cancel
-				await interaction.reply('Closing ticket in 3 seconds type `cancel` to cancel');
+                const closeButton = new ButtonBuilder()
+                    .setCustomId('cancel')
+                    .setLabel('Cancel')
+                    .setStyle(ButtonStyle.Danger);
 
-				// wait 3 seconds for user to cancel
-				const filter = m => m.content.toLowerCase() === 'cancel' && m.author.id === interaction.user.id;
-				const collector = interaction.channel.createMessageCollector({ filter, time: 3000 });
+                const row = new ActionRowBuilder()
+                    .addComponents(closeButton);
 
-				// eslint-disable-next-line no-unused-vars
-				collector.on('collect', async m => {
-					await interaction.channel.send('Ticket close cancelled');
-					collector.stop();
-				});
+                await interaction.reply({ embeds: [closeEmbed], components: [row] });
 
-				collector.on('end', async collected => {
-					if (collected.size === 0) {
-						await interaction.channel.delete();
-					}
-				});
+                const filter = i => i.customId === 'cancel';
+                const collector = interaction.channel.createMessageComponentCollector({ filter, time: 5000 });
 
+                // eslint-disable-next-line no-unused-vars
+                collector.on('collect', async i => {
+                    await i.update({ content: 'Ticket close cancelled.', components: [] });
+                    collector.stop();
+                });
+
+                collector.on('end', async collected => {
+                    if (collected.size === 0) {
+                        await interaction.channel.delete();
+                    }
+                });
+			}
+
+			if (button.customId === 'transcript') {
+				// TODO
 			}
 		}
 		else if (interaction.isStringSelectMenu()) {
